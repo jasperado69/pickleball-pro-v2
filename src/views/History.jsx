@@ -18,35 +18,36 @@ export function History() {
         <div className="space-y-4">
             <h2 className="text-xs font-bold text-text-muted uppercase tracking-wider mb-2">Recent Activity</h2>
             {history.map(item => (
-                <Card key={item.id} className="p-4">
-                    <div className="flex justify-between items-start">
+                <Card key={item.id} className="p-3 relative group">
+                    <div className="flex justify-between items-start pr-6">
                         <div>
-                            <div className="font-bold text-base">{item.drill || item.drill_id || 'Unknown Drill'}</div>
-                            <div className="text-xs text-text-muted mt-1">
+                            <div className="font-bold text-sm">{item.drill || item.drill_id || 'Unknown Drill'}</div>
+                            <div className="text-[10px] text-text-muted mt-0.5">
                                 {item.date || (item.created_at ? new Date(item.created_at).toLocaleDateString() : 'No Date')} • {item.category}
                             </div>
                             {(item.result || item.score) && (
-                                <div className="text-sm mt-2 text-text-main">{item.result || item.score}</div>
+                                <div className="text-xs mt-1 text-text-main font-medium">{item.result || item.score}</div>
                             )}
                         </div>
                         <div className="text-right">
                             {item.success && (
-                                <div className="font-bold text-success">{item.success}%</div>
+                                <div className="font-bold text-success text-sm">{item.success}%</div>
                             )}
-                            <div className="inline-block px-2 py-0.5 rounded bg-white/5 text-xs text-text-muted mt-1">
+                            <div className="inline-block px-1.5 py-0.5 rounded bg-white/5 text-[10px] text-text-muted mt-1">
                                 {item.mastery}/5
                             </div>
                         </div>
                     </div>
 
-                    <div className="flex justify-end mt-4 pt-3 border-t border-white/5">
-                        <button
-                            onClick={() => deleteEntry(item.id)}
-                            className="text-text-muted hover:text-red-500 transition-colors p-2"
-                        >
-                            <Trash2 className="w-4 h-4" />
-                        </button>
-                    </div>
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            if (confirm('Delete this entry?')) deleteEntry(item.id);
+                        }}
+                        className="absolute top-2 right-2 text-text-muted/20 hover:text-red-500 transition-colors p-1"
+                    >
+                        <Trash2 className="w-3 h-3" />
+                    </button>
                 </Card>
             ))}
         </div>

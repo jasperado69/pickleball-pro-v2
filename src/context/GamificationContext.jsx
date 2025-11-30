@@ -163,6 +163,21 @@ export function GamificationProvider({ children }) {
         return 5;
     };
 
+    const deleteEntry = async (id) => {
+        try {
+            const { error } = await supabase
+                .from('drill_logs')
+                .delete()
+                .eq('id', id);
+
+            if (error) throw error;
+
+            setHistory(prev => prev.filter(item => item.id !== id));
+        } catch (error) {
+            console.error('Error deleting entry:', error);
+        }
+    };
+
     const value = {
         xp,
         level,
@@ -170,6 +185,7 @@ export function GamificationProvider({ children }) {
         streak: profile?.streak || 0,
         badges: earnedBadges,
         addEntry,
+        deleteEntry,
         loading,
         categoryStats,
         getCategoryLevel
