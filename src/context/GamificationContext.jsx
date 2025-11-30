@@ -81,6 +81,8 @@ export function GamificationProvider({ children }) {
     const addEntry = async (entry) => {
         if (!user) return;
 
+        console.log("Saving entry:", entry);
+
         const newXp = xp + (entry.xp || 10);
         const newStreak = (profile?.streak || 0) + 1;
         const newTotalDrills = history.length + 1;
@@ -103,19 +105,41 @@ export function GamificationProvider({ children }) {
 
         try {
             // 1. Insert Drill Log
+            // Try 'drill' column first (most likely based on previous attempts)
+            let insertError = null;
+
             const { error: logError } = await supabase
                 .from('drill_logs')
                 .insert([{
                     user_id: user.id,
-                    drill_id: entry.drill, // Map drill name to drill_id column
+                    drill: entry.drill,
                     category: entry.category,
-                    score: entry.result, // Map result string to score column
+                    result: entry.result,
                     mastery: entry.mastery,
                     xp_earned: entry.xp || 10,
                     created_at: entryWithTimestamp.created_at
                 }]);
 
-            if (logError) throw logError;
+            if (logError) {
+                console.error("Insert Error (drill):", logError);
+                // If 'drill' column doesn't exist, try 'drill_id' and 'score'
+                if (logError.message.includes('column "drill" does not exist') || logError.message.includes('column "result" does not exist')) {
+                    const { error: retryError } = await supabase
+                        .from('drill_logs')
+                        .insert([{
+                            user_id: user.id,
+                            drill_id: entry.drill,
+                            category: entry.category,
+                            score: entry.result,
+                            mastery: entry.mastery,
+                            xp_earned: entry.xp || 10,
+                            created_at: entryWithTimestamp.created_at
+                        }]);
+                    if (retryError) throw retryError;
+                } else {
+                    throw logError;
+                }
+            }
 
             // 2. Update Profile Stats & Badges
             await updateProfile({
@@ -129,12 +153,12 @@ export function GamificationProvider({ children }) {
             setEarnedBadges(updatedBadges);
 
             // 4. Effects
+            console.log("Triggering confetti!");
             triggerConfetti();
             playSound('coin');
 
             if (newBadges.length > 0) {
                 playSound('levelup');
-                // Could add a toast here for "Badge Unlocked!"
             }
 
             const oldLevel = calculateLevel(xp);
@@ -145,6 +169,7 @@ export function GamificationProvider({ children }) {
 
         } catch (error) {
             console.error('Error logging drill:', error);
+            alert(`Error saving drill: ${error.message}`);
         }
     };
 
