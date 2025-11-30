@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useGamification } from '../context/GamificationContext';
 import { useUser } from '../context/UserContext';
+import { supabase } from '../lib/supabase';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
@@ -240,6 +241,17 @@ export function Profile() {
                         className="w-full bg-red-400/10 text-red-400 hover:bg-red-400/20 border-red-400/50 text-xs"
                     >
                         🔒 Reset / Lock
+                    </Button>
+                    <Button
+                        onClick={async () => {
+                            const { data, error } = await supabase.from('drill_logs').select('*').limit(1);
+                            if (error) alert(error.message);
+                            else if (data.length) alert('Columns: ' + Object.keys(data[0]).join(', '));
+                            else alert('Table is empty, cannot determine columns.');
+                        }}
+                        className="col-span-2 w-full bg-blue-400/10 text-blue-400 hover:bg-blue-400/20 border-blue-400/50 text-xs"
+                    >
+                        🐞 Debug DB Schema
                     </Button>
                 </div>
             </Card>
