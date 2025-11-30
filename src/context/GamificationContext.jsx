@@ -83,6 +83,24 @@ export function GamificationProvider({ children }) {
 
         console.log("Saving entry:", entry);
 
+        // DEBUG: Check columns
+        try {
+            const { data: debugData, error: debugError } = await supabase
+                .from('drill_logs')
+                .select('*')
+                .limit(1);
+            if (debugData && debugData.length > 0) {
+                const columns = Object.keys(debugData[0]).join(', ');
+                console.log("Found columns:", columns);
+                // alert(`Debug: Found columns: ${columns}`); 
+                // Commented out alert to avoid spamming, relying on console or the error handling below
+            } else {
+                console.log("Table empty or no access");
+            }
+        } catch (e) {
+            console.error("Debug fetch failed", e);
+        }
+
         const newXp = xp + (entry.xp || 10);
         const newStreak = (profile?.streak || 0) + 1;
         const newTotalDrills = history.length + 1;
