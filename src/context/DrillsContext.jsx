@@ -12,7 +12,7 @@ const DEFAULT_DRILLS = [
         type: "reps",
         media: {
             type: 'youtube',
-            url: 'https://www.youtube.com/watch?v=J3N7t1eZgSE', // Example: Pickleball Serve Tips
+            url: 'https://www.youtube.com/watch?v=J3N7t1eZgSE',
             poster: 'https://img.youtube.com/vi/J3N7t1eZgSE/maxresdefault.jpg'
         },
         config: { total: 10, unit: "serves" },
@@ -93,9 +93,9 @@ const DEFAULT_DRILLS = [
         duration: "20 points",
         type: "reps",
         media: {
-            type: 'video',
-            url: 'https://videos.pexels.com/video-files/5739227/5739227-hd_1920_1080_24fps.mp4',
-            poster: 'https://images.pexels.com/photos/13061327/pexels-photo-13061327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+            type: 'youtube',
+            url: 'https://www.youtube.com/watch?v=cM3tCqjTzT0', // Dinking Strategy
+            poster: 'https://img.youtube.com/vi/cM3tCqjTzT0/maxresdefault.jpg'
         },
         config: { total: 10, unit: "attacks" },
         thresholds: { 5: 9, 4: 8, 3: 6, 2: 4, 1: 0 },
@@ -215,9 +215,9 @@ const DEFAULT_DRILLS = [
         type: "reps",
         minDupr: 4.0,
         media: {
-            type: 'video',
-            url: 'https://videos.pexels.com/video-files/5739227/5739227-hd_1920_1080_24fps.mp4',
-            poster: 'https://images.pexels.com/photos/13061327/pexels-photo-13061327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+            type: 'youtube',
+            url: 'https://www.youtube.com/watch?v=J3N7t1eZgSE',
+            poster: 'https://img.youtube.com/vi/J3N7t1eZgSE/maxresdefault.jpg'
         },
         config: { total: 10, unit: "serves" },
         thresholds: { 5: 9, 4: 8, 3: 6, 2: 4, 1: 0 },
