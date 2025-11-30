@@ -23,7 +23,9 @@ export function History() {
                         <div>
                             <div className="font-bold text-sm">{item.drill || item.drill_id || 'Unknown Drill'}</div>
                             <div className="text-[10px] text-text-muted mt-0.5">
-                                {item.date || (item.created_at ? new Date(item.created_at).toLocaleDateString() : 'No Date')} • {item.category}
+                                {item.created_at
+                                    ? new Date(item.created_at).toLocaleString(undefined, { dateStyle: 'short', timeStyle: 'short' })
+                                    : (item.date || 'No Date')} • {item.category}
                             </div>
                             {(item.result || item.score) && (
                                 <div className="text-xs mt-1 text-text-main font-medium">{item.result || item.score}</div>
