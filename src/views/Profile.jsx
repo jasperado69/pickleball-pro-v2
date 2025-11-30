@@ -137,12 +137,21 @@ export function Profile() {
                         value={profile?.dupr_rating || 2.5}
                         onChange={handleDuprChange}
                     >
-                        <option value="2.5">2.5</option>
-                        <option value="3.0">3.0</option>
-                        <option value="3.5">3.5</option>
-                        <option value="4.0">4.0</option>
-                        <option value="4.5">4.5</option>
-                        <option value="5.0">5.0</option>
+                        {[
+                            { val: "2.5", xpReq: 0 },
+                            { val: "3.0", xpReq: 1000 },
+                            { val: "3.5", xpReq: 2500 },
+                            { val: "4.0", xpReq: 5000 },
+                            { val: "4.5", xpReq: 10000 },
+                            { val: "5.0", xpReq: 20000 }
+                        ].map(l => {
+                            const isLocked = xp < l.xpReq;
+                            return (
+                                <option key={l.val} value={l.val}>
+                                    {isLocked ? '🔒 ' : ''}{l.val}
+                                </option>
+                            );
+                        })}
                     </select>
                     <div className="absolute bottom-0 right-0 bg-bg-card p-1 rounded-full border border-white/10 text-text-muted group-hover:text-primary transition-colors">
                         <svg xmlns="http://www.w3.org/2000/svg" width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 3a2.85 2.83 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5Z" /></svg>
