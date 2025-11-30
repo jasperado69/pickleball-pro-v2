@@ -58,6 +58,20 @@ export function Auth() {
                         required
                     />
 
+                    {isLogin && (
+                        <div className="flex items-center gap-2 ml-1">
+                            <input
+                                type="checkbox"
+                                id="remember"
+                                className="w-4 h-4 rounded border-white/10 bg-bg-body text-primary focus:ring-primary/50"
+                                defaultChecked
+                            />
+                            <label htmlFor="remember" className="text-sm text-text-muted cursor-pointer">
+                                Stay logged in
+                            </label>
+                        </div>
+                    )}
+
                     {error && (
                         <div className="text-red-400 text-sm text-center bg-red-400/10 p-2 rounded">
                             {error}
