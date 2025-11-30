@@ -4,10 +4,11 @@ import { useUser } from '../context/UserContext';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
-import { LogOut, User } from 'lucide-react';
+import { LogOut, User, Trophy, Flame, Zap } from 'lucide-react';
+import { BADGES } from '../utils/badges';
 
 export function Profile() {
-    const { xp, level, streak, history } = useGamification();
+    const { xp, level, streak, history, badges: earnedBadges } = useGamification();
     const { user, profile, updateProfile, signOut } = useUser();
 
     // State for editing current user
@@ -53,7 +54,7 @@ export function Profile() {
     };
 
     return (
-        <div className="space-y-6">
+        <div className="space-y-6 pb-24">
             {/* Profile Header */}
             <Card className="p-4 flex items-center justify-between bg-bg-card/50">
                 <div className="flex items-center gap-3">
@@ -176,6 +177,55 @@ export function Profile() {
                 <StatBox label="Drills Logged" value={totalDrills} />
                 <StatBox label="Avg Mastery" value={avgMastery} />
             </div>
+
+            {/* Badges Section */}
+            <div className="space-y-4 pt-4">
+                <h2 className="text-lg font-bold text-white flex items-center gap-2">
+                    <Trophy className="w-5 h-5 text-yellow-400" />
+                    Badges
+                </h2>
+                <div className="grid grid-cols-3 gap-3">
+                    {BADGES.map((badge) => {
+                        const isEarned = earnedBadges.includes(badge.id);
+                        return (
+                            <div
+                                key={badge.id}
+                                className={`
+                                    relative flex flex-col items-center text-center p-3 rounded-xl border transition-all
+                                    ${isEarned
+                                        ? 'bg-bg-card border-white/10'
+                                        : 'bg-bg-card/30 border-transparent opacity-50 grayscale'}
+                                `}
+                            >
+                                <div className={`p-2 rounded-full bg-white/5 mb-2 ${isEarned ? badge.color : 'text-gray-500'}`}>
+                                    <badge.icon className="w-6 h-6" />
+                                </div>
+                                <div className={`text-xs font-bold ${isEarned ? 'text-white' : 'text-text-muted'}`}>
+                                    {badge.name}
+                                </div>
+                                {isEarned && (
+                                    <div className="text-[10px] text-text-muted leading-tight mt-1">
+                                        {badge.description}
+                                    </div>
+                                )}
+                            </div>
+                        );
+                    })}
+                </div>
+            </div>
+
+            {/* Developer Tools */}
+            <Card className="p-4 border-yellow-400/20 bg-yellow-400/5">
+                <h3 className="font-bold text-yellow-400 mb-2 flex items-center gap-2">
+                    <Zap className="w-4 h-4" /> Developer Tools
+                </h3>
+                <Button
+                    onClick={() => updateProfile({ dupr_rating: 5.0, xp: 20000 })}
+                    className="w-full bg-yellow-400/10 text-yellow-400 hover:bg-yellow-400/20 border-yellow-400/50"
+                >
+                    ⚡ Unlock Everything (Test Mode)
+                </Button>
+            </Card>
 
             {/* Footer */}
             <div className="text-center pt-8 pb-4 space-y-2">

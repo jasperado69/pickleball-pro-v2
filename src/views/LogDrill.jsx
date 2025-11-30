@@ -214,6 +214,14 @@ export function LogDrill() {
                                             controls
                                             className="w-full h-full object-cover"
                                         />
+                                    ) : selectedDrill.media.type === 'youtube' ? (
+                                        <iframe
+                                            src={selectedDrill.media.url.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/')}
+                                            title={selectedDrill.name}
+                                            className="w-full h-full object-cover"
+                                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                            allowFullScreen
+                                        />
                                     ) : (
                                         <img
                                             src={selectedDrill.media.url}

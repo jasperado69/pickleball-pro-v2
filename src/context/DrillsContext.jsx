@@ -11,9 +11,9 @@ const DEFAULT_DRILLS = [
         duration: "50 per side",
         type: "reps",
         media: {
-            type: 'video',
-            url: 'https://videos.pexels.com/video-files/4753337/4753337-hd_1920_1080_25fps.mp4', // Placeholder tennis/court video
-            poster: 'https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+            type: 'youtube',
+            url: 'https://www.youtube.com/watch?v=J3N7t1eZgSE', // Example: Pickleball Serve Tips
+            poster: 'https://img.youtube.com/vi/J3N7t1eZgSE/maxresdefault.jpg'
         },
         config: { total: 10, unit: "serves" },
         thresholds: { 5: 9, 4: 8, 3: 6, 2: 4, 1: 0 },
@@ -31,6 +31,11 @@ const DEFAULT_DRILLS = [
         goal: "10 in a row without net/long",
         duration: "30 reps",
         type: "reps",
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/4753337/4753337-hd_1920_1080_25fps.mp4',
+            poster: 'https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { total: 10, unit: "drops" },
         thresholds: { 5: 10, 4: 8, 3: 6, 2: 4, 1: 0 },
         instructions: [
@@ -47,6 +52,11 @@ const DEFAULT_DRILLS = [
         goal: "≤2 unforced errors per rally",
         duration: "20 exchanges",
         type: "counter",
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/5739227/5739227-hd_1920_1080_24fps.mp4',
+            poster: 'https://images.pexels.com/photos/13061327/pexels-photo-13061327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { unit: "errors", inverse: true }, // Inverse means lower is better
         thresholds: { 5: 0, 4: 2, 3: 4, 2: 6, 1: 100 },
         instructions: [
@@ -62,6 +72,11 @@ const DEFAULT_DRILLS = [
         goal: "15 consecutive dinks each",
         duration: "5 rounds",
         type: "counter",
+        media: {
+            type: 'image',
+            url: 'https://media.giphy.com/media/3o7btXkbsV26U95U08/giphy.gif',
+            poster: ''
+        },
         config: { unit: "consecutive dinks" },
         thresholds: { 5: 20, 4: 15, 3: 10, 2: 5, 1: 0 },
         instructions: [
@@ -77,6 +92,11 @@ const DEFAULT_DRILLS = [
         goal: "Recognize 80% attackable balls",
         duration: "20 points",
         type: "reps",
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/5739227/5739227-hd_1920_1080_24fps.mp4',
+            poster: 'https://images.pexels.com/photos/13061327/pexels-photo-13061327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { total: 10, unit: "attacks" },
         thresholds: { 5: 9, 4: 8, 3: 6, 2: 4, 1: 0 },
         instructions: [
@@ -92,6 +112,11 @@ const DEFAULT_DRILLS = [
         goal: "10+ clean volleys each/rally",
         duration: "5 rounds",
         type: "counter",
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/4753337/4753337-hd_1920_1080_25fps.mp4',
+            poster: 'https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { unit: "volleys" },
         thresholds: { 5: 15, 4: 10, 3: 6, 2: 3, 1: 0 },
         instructions: [
@@ -107,6 +132,11 @@ const DEFAULT_DRILLS = [
         goal: "Reach NVZ under control 8/10",
         duration: "10 sequences",
         type: "reps",
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/5739227/5739227-hd_1920_1080_24fps.mp4',
+            poster: 'https://images.pexels.com/photos/13061327/pexels-photo-13061327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { total: 10, unit: "advances" },
         thresholds: { 5: 9, 4: 8, 3: 6, 2: 4, 1: 0 },
         instructions: [
@@ -123,6 +153,11 @@ const DEFAULT_DRILLS = [
         goal: "Zero missed comm errors/game",
         duration: "3 games",
         type: "checklist",
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/4753337/4753337-hd_1920_1080_25fps.mp4',
+            poster: 'https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { items: ["Called every middle ball", "Switched on lobs", "Communicated 'out' balls"] },
         thresholds: { 5: 3, 4: 2, 3: 1, 2: 0, 1: -1 }, // Based on checked items
         instructions: [
@@ -138,6 +173,11 @@ const DEFAULT_DRILLS = [
         goal: "Win 60%+ constructed points",
         duration: "15 points",
         type: "reps",
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/5739227/5739227-hd_1920_1080_24fps.mp4',
+            poster: 'https://images.pexels.com/photos/13061327/pexels-photo-13061327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { total: 15, unit: "points" },
         thresholds: { 5: 12, 4: 9, 3: 7, 2: 5, 1: 0 },
         instructions: [
@@ -152,6 +192,11 @@ const DEFAULT_DRILLS = [
         goal: "Win 3 of 5 close games",
         duration: "5 sets",
         type: "reps",
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/4753337/4753337-hd_1920_1080_25fps.mp4',
+            poster: 'https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { total: 5, unit: "games" },
         thresholds: { 5: 4, 4: 3, 3: 2, 2: 1, 1: 0 },
         instructions: [
@@ -169,6 +214,11 @@ const DEFAULT_DRILLS = [
         duration: "50 per side",
         type: "reps",
         minDupr: 4.0,
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/5739227/5739227-hd_1920_1080_24fps.mp4',
+            poster: 'https://images.pexels.com/photos/13061327/pexels-photo-13061327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { total: 10, unit: "serves" },
         thresholds: { 5: 9, 4: 8, 3: 6, 2: 4, 1: 0 },
         instructions: [
@@ -185,6 +235,11 @@ const DEFAULT_DRILLS = [
         duration: "20 reps",
         type: "reps",
         minDupr: 3.5,
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/4753337/4753337-hd_1920_1080_25fps.mp4',
+            poster: 'https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { total: 10, unit: "drops" },
         thresholds: { 5: 9, 4: 8, 3: 6, 2: 4, 1: 0 },
         instructions: [
@@ -201,6 +256,11 @@ const DEFAULT_DRILLS = [
         duration: "5 rallies",
         type: "reps",
         minDupr: 4.5,
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/5739227/5739227-hd_1920_1080_24fps.mp4',
+            poster: 'https://images.pexels.com/photos/13061327/pexels-photo-13061327.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
         config: { total: 5, unit: "rallies" },
         thresholds: { 5: 5, 4: 4, 3: 3, 2: 1, 1: 0 },
         instructions: [

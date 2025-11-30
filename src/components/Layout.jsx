@@ -47,6 +47,12 @@ export function Layout({ children, activeTab, onTabChange }) {
                         onClick={() => onTabChange('history')}
                     />
                     <NavItem
+                        icon={Trophy}
+                        label="Rank"
+                        isActive={activeTab === 'leaderboard'}
+                        onClick={() => onTabChange('leaderboard')}
+                    />
+                    <NavItem
                         icon={Calendar}
                         label="Weekly"
                         isActive={activeTab === 'weekly'}

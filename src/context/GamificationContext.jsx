@@ -3,6 +3,7 @@ import { useUser } from './UserContext';
 import { supabase } from '../lib/supabase';
 import { triggerConfetti } from '../utils/confetti';
 import { playSound } from '../utils/sound';
+import { BADGES } from '../utils/badges';
 
 const GamificationContext = createContext();
 
@@ -10,6 +11,7 @@ export function GamificationProvider({ children }) {
     const { user, profile, updateProfile } = useUser();
     const [history, setHistory] = useState([]);
     const [loading, setLoading] = useState(true);
+    const [earnedBadges, setEarnedBadges] = useState([]);
 
     // Load history when user changes
     useEffect(() => {
@@ -17,9 +19,17 @@ export function GamificationProvider({ children }) {
             fetchHistory();
         } else {
             setHistory([]);
+            setEarnedBadges([]);
             setLoading(false);
         }
     }, [user]);
+
+    // Load badges from profile
+    useEffect(() => {
+        if (profile?.badges) {
+            setEarnedBadges(profile.badges);
+        }
+    }, [profile]);
 
     const fetchHistory = async () => {
         try {
@@ -73,6 +83,23 @@ export function GamificationProvider({ children }) {
 
         const newXp = xp + (entry.xp || 10);
         const newStreak = (profile?.streak || 0) + 1;
+        const newTotalDrills = history.length + 1;
+
+        // Check for new badges
+        const currentStats = {
+            xp: newXp,
+            streak: newStreak,
+            totalDrills: newTotalDrills
+        };
+
+        const entryWithTimestamp = { ...entry, created_at: new Date().toISOString() };
+
+        const newBadges = BADGES.filter(badge => {
+            if (earnedBadges.includes(badge.id)) return false; // Already earned
+            return badge.condition(currentStats, entryWithTimestamp);
+        }).map(b => b.id);
+
+        const updatedBadges = [...earnedBadges, ...newBadges];
 
         try {
             // 1. Insert Drill Log
@@ -85,23 +112,30 @@ export function GamificationProvider({ children }) {
                     score: entry.score,
                     mastery: entry.mastery,
                     xp_earned: entry.xp || 10,
-                    created_at: new Date().toISOString()
+                    created_at: entryWithTimestamp.created_at
                 }]);
 
             if (logError) throw logError;
 
-            // 2. Update Profile Stats
+            // 2. Update Profile Stats & Badges
             await updateProfile({
                 xp: newXp,
-                streak: newStreak
+                streak: newStreak,
+                badges: updatedBadges
             });
 
             // 3. Update Local State
             setHistory(prev => [entry, ...prev]);
+            setEarnedBadges(updatedBadges);
 
             // 4. Effects
             triggerConfetti();
             playSound('coin');
+
+            if (newBadges.length > 0) {
+                playSound('levelup');
+                // Could add a toast here for "Badge Unlocked!"
+            }
 
             const oldLevel = calculateLevel(xp);
             const newLevelCalc = calculateLevel(newXp);
@@ -134,6 +168,7 @@ export function GamificationProvider({ children }) {
         level,
         history,
         streak: profile?.streak || 0,
+        badges: earnedBadges,
         addEntry,
         loading,
         categoryStats,

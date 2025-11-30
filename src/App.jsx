@@ -1,15 +1,17 @@
-import { useState, useEffect } from 'react';
-import { UserProvider, useUser } from './context/UserContext';
-import { DrillsProvider } from './context/DrillsContext';
-import { GamificationProvider } from './context/GamificationContext';
-import { Layout } from './components/Layout';
-import { LogDrill } from './views/LogDrill';
-import { History } from './views/History';
-import { Weekly } from './views/Weekly';
-import { Profile } from './views/Profile';
-import { SplashScreen } from './components/SplashScreen';
-import { Onboarding } from './components/Onboarding';
-import { Auth } from './components/Auth';
+import { useState, useEffect } from 'react'
+import { Layout } from './components/Layout'
+import LogDrill from './views/LogDrill'
+import Weekly from './views/Weekly'
+import History from './views/History'
+import Profile from './views/Profile'
+import Leaderboard from './views/Leaderboard'
+import { SplashScreen } from './components/SplashScreen'
+import { Onboarding } from './components/Onboarding'
+import { Auth } from './components/Auth'
+import { UserProvider, useUser } from './context/UserContext'
+import { DrillsProvider } from './context/DrillsContext'
+import { GamificationProvider } from './context/GamificationContext'
+import { Activity, Calendar, History as HistoryIcon, User, Trophy } from 'lucide-react'
 
 function AppContent() {
   const { user, loading } = useUser();
@@ -49,6 +51,7 @@ function AppContent() {
       case 'log': return <LogDrill />;
       case 'history': return <History />;
       case 'weekly': return <Weekly />;
+      case 'leaderboard': return <Leaderboard />;
       case 'profile': return <Profile />;
       default: return <LogDrill />;
     }
