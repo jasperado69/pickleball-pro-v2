@@ -219,12 +219,20 @@ export function Profile() {
                 <h3 className="font-bold text-yellow-400 mb-2 flex items-center gap-2">
                     <Zap className="w-4 h-4" /> Developer Tools
                 </h3>
-                <Button
-                    onClick={() => updateProfile({ dupr_rating: 5.0, xp: 20000 })}
-                    className="w-full bg-yellow-400/10 text-yellow-400 hover:bg-yellow-400/20 border-yellow-400/50"
-                >
-                    ⚡ Unlock Everything (Test Mode)
-                </Button>
+                <div className="grid grid-cols-2 gap-3">
+                    <Button
+                        onClick={() => updateProfile({ dupr_rating: 5.0, xp: 20000 })}
+                        className="w-full bg-yellow-400/10 text-yellow-400 hover:bg-yellow-400/20 border-yellow-400/50 text-xs"
+                    >
+                        ⚡ Unlock All
+                    </Button>
+                    <Button
+                        onClick={() => updateProfile({ dupr_rating: 2.5, xp: 0 })}
+                        className="w-full bg-red-400/10 text-red-400 hover:bg-red-400/20 border-red-400/50 text-xs"
+                    >
+                        🔒 Reset / Lock
+                    </Button>
+                </div>
             </Card>
 
             {/* Footer */}
