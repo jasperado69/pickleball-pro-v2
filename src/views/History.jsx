@@ -30,6 +30,9 @@ export function History() {
                             {(item.result || item.score) && (
                                 <div className="text-xs mt-1 text-text-main font-medium">{item.result || item.score}</div>
                             )}
+                            {item.notes && (
+                                <div className="text-[10px] text-text-muted mt-1 italic">"{item.notes}"</div>
+                            )}
                         </div>
                         <div className="text-right">
                             {item.success && (

@@ -115,6 +115,7 @@ export function GamificationProvider({ children }) {
                     score: entry.numericScore, // Use numeric score for integer column
                     mastery: entry.mastery,
                     xp_earned: entry.xp || 10,
+                    notes: entry.notes,
                     created_at: entryWithTimestamp.created_at
                 }]);
 
@@ -138,6 +139,7 @@ export function GamificationProvider({ children }) {
                             result: entry.result,
                             mastery: entry.mastery,
                             xp_earned: entry.xp || 10,
+                            notes: entry.notes,
                             created_at: entryWithTimestamp.created_at
                         }]);
                     if (retryError) throw retryError;
