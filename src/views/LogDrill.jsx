@@ -197,7 +197,14 @@ export function LogDrill() {
                     <div>
                         <Label>Drill</Label>
                         <Select value={drillName} onChange={e => setDrillName(e.target.value)}>
-                            {filteredDrills.map(d => <option key={d.name}>{d.name}</option>)}
+                            {filteredDrills.map(d => {
+                                const isDrillLocked = d.minDupr && d.minDupr > currentDupr;
+                                return (
+                                    <option key={d.name} value={d.name}>
+                                        {isDrillLocked ? '🔒 ' : ''}{d.name}
+                                    </option>
+                                );
+                            })}
                         </Select>
                     </div>
 
