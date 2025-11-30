@@ -240,28 +240,39 @@ export function LogDrill() {
                             )}
 
                             <div className="p-4 space-y-4">
-                                {/* Instructions */}
-                                <div className="space-y-2">
-                                    <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider">Instructions</h3>
-                                    {selectedDrill.instructions.map((step, i) => (
-                                        <div key={i} className="flex gap-3 text-sm text-text-muted">
-                                            <span className="font-bold text-primary">{i + 1}</span>
-                                            <span>{step}</span>
+                                {isLocked ? (
+                                    <div className="flex flex-col items-center justify-center py-8 text-center space-y-3 opacity-50">
+                                        <Lock className="w-8 h-8 text-text-muted" />
+                                        <p className="text-sm font-medium text-text-muted">
+                                            Reach DUPR {selectedDrill.minDupr} to view instructions
+                                        </p>
+                                    </div>
+                                ) : (
+                                    <>
+                                        {/* Instructions */}
+                                        <div className="space-y-2">
+                                            <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider">Instructions</h3>
+                                            {selectedDrill.instructions.map((step, i) => (
+                                                <div key={i} className="flex gap-3 text-sm text-text-muted">
+                                                    <span className="font-bold text-primary">{i + 1}</span>
+                                                    <span>{step}</span>
+                                                </div>
+                                            ))}
                                         </div>
-                                    ))}
-                                </div>
 
-                                {/* Goal & Duration */}
-                                <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
-                                    <div>
-                                        <div className="text-xs font-bold text-text-muted uppercase tracking-wider mb-1">Goal</div>
-                                        <div className="font-semibold text-sm text-white">{selectedDrill.goal}</div>
-                                    </div>
-                                    <div>
-                                        <div className="text-xs font-bold text-text-muted uppercase tracking-wider mb-1">Duration</div>
-                                        <div className="font-semibold text-sm text-white">{selectedDrill.duration}</div>
-                                    </div>
-                                </div>
+                                        {/* Goal & Duration */}
+                                        <div className="grid grid-cols-2 gap-4 pt-4 border-t border-white/5">
+                                            <div>
+                                                <div className="text-xs font-bold text-text-muted uppercase tracking-wider mb-1">Goal</div>
+                                                <div className="font-semibold text-sm text-white">{selectedDrill.goal}</div>
+                                            </div>
+                                            <div>
+                                                <div className="text-xs font-bold text-text-muted uppercase tracking-wider mb-1">Duration</div>
+                                                <div className="font-semibold text-sm text-white">{selectedDrill.duration}</div>
+                                            </div>
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                     )}
