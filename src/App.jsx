@@ -12,7 +12,6 @@ import { UserProvider, useUser } from './context/UserContext'
 import { DrillsProvider } from './context/DrillsContext'
 import { GamificationProvider } from './context/GamificationContext'
 import { Activity, Calendar, History as HistoryIcon, User, Trophy } from 'lucide-react'
-
 function AppContent() {
   const { user, loading } = useUser();
   const [activeTab, setActiveTab] = useState('log');
