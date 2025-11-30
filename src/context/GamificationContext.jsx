@@ -105,32 +105,37 @@ export function GamificationProvider({ children }) {
 
         try {
             // 1. Insert Drill Log
-            // Try 'drill' column first (most likely based on previous attempts)
-            let insertError = null;
-
+            // Try 'drill_id' and 'score' first (standard Supabase columns)
             const { error: logError } = await supabase
                 .from('drill_logs')
                 .insert([{
                     user_id: user.id,
-                    drill: entry.drill,
+                    drill_id: entry.drill,
                     category: entry.category,
-                    result: entry.result,
+                    score: entry.result,
                     mastery: entry.mastery,
                     xp_earned: entry.xp || 10,
                     created_at: entryWithTimestamp.created_at
                 }]);
 
             if (logError) {
-                console.error("Insert Error (drill):", logError);
-                // If 'drill' column doesn't exist, try 'drill_id' and 'score'
-                if (logError.message.includes('column "drill" does not exist') || logError.message.includes('column "result" does not exist')) {
+                console.error("Insert Error (drill_id):", logError);
+
+                // Check for column errors (including schema cache errors)
+                const isColumnError =
+                    logError.message.includes('column') ||
+                    logError.message.includes('schema cache') ||
+                    logError.code === '42703'; // Undefined column
+
+                if (isColumnError) {
+                    console.log("Retrying with 'drill' and 'result' columns...");
                     const { error: retryError } = await supabase
                         .from('drill_logs')
                         .insert([{
                             user_id: user.id,
-                            drill_id: entry.drill,
+                            drill: entry.drill,
                             category: entry.category,
-                            score: entry.result,
+                            result: entry.result,
                             mastery: entry.mastery,
                             xp_earned: entry.xp || 10,
                             created_at: entryWithTimestamp.created_at
