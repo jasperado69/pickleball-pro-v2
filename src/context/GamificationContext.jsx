@@ -112,7 +112,7 @@ export function GamificationProvider({ children }) {
                     user_id: user.id,
                     drill_id: entry.drill,
                     category: entry.category,
-                    score: entry.result,
+                    score: entry.numericScore, // Use numeric score for integer column
                     mastery: entry.mastery,
                     xp_earned: entry.xp || 10,
                     created_at: entryWithTimestamp.created_at

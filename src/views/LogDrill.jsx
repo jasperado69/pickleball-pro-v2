@@ -119,12 +119,21 @@ export function LogDrill() {
             }
         }
 
+        // Calculate numeric score for DB
+        let numericScore = 0;
+        if (selectedDrill.type === 'checklist') {
+            numericScore = checklist.length;
+        } else {
+            numericScore = parseInt(inputVal) || 0;
+        }
+
         addEntry({
             id: Math.random().toString(36).slice(2),
             date,
             category: selectedDrill?.category || category,
             drill: drillName,
             result: resultString,
+            numericScore: numericScore, // Pass raw number for DB
             mastery: calculatedMastery,
             success: calculatedSuccess,
             notes
