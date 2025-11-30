@@ -85,6 +85,26 @@ export function UserProvider({ children }) {
             setProfile(prev => ({ ...prev, ...updates }));
         } catch (error) {
             console.error('Error updating profile:', error);
+
+            // Retry without badges if that was the issue
+            if (error.message?.includes('badges') && updates.badges) {
+                console.warn("Retrying profile update without badges...");
+                const { badges, ...updatesWithoutBadges } = updates;
+                try {
+                    const { error: retryError } = await supabase
+                        .from('profiles')
+                        .update(updatesWithoutBadges)
+                        .eq('id', user.id);
+
+                    if (retryError) throw retryError;
+                    setProfile(prev => ({ ...prev, ...updatesWithoutBadges }));
+                    return; // Success on retry
+                } catch (retryError) {
+                    console.error('Retry failed:', retryError);
+                    throw retryError;
+                }
+            }
+
             throw error;
         }
     };
