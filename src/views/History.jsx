@@ -21,10 +21,12 @@ export function History() {
                 <Card key={item.id} className="p-4">
                     <div className="flex justify-between items-start">
                         <div>
-                            <div className="font-bold text-base">{item.drill}</div>
-                            <div className="text-xs text-text-muted mt-1">{item.date} • {item.category}</div>
-                            {item.result && (
-                                <div className="text-sm mt-2 text-text-main">{item.result}</div>
+                            <div className="font-bold text-base">{item.drill || item.drill_id || 'Unknown Drill'}</div>
+                            <div className="text-xs text-text-muted mt-1">
+                                {item.date || (item.created_at ? new Date(item.created_at).toLocaleDateString() : 'No Date')} • {item.category}
+                            </div>
+                            {(item.result || item.score) && (
+                                <div className="text-sm mt-2 text-text-main">{item.result || item.score}</div>
                             )}
                         </div>
                         <div className="text-right">

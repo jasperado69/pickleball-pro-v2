@@ -5,7 +5,8 @@ export const triggerConfetti = () => {
         particleCount: 100,
         spread: 70,
         origin: { y: 0.6 },
-        colors: ['#06b6d4', '#ffffff', '#fbbf24'] // Cyan, White, Amber
+        colors: ['#06b6d4', '#ffffff', '#fbbf24'], // Cyan, White, Amber
+        zIndex: 9999
     });
 };
 
@@ -19,14 +20,16 @@ export const triggerLevelUp = () => {
             angle: 60,
             spread: 55,
             origin: { x: 0 },
-            colors: ['#06b6d4', '#ffffff']
+            colors: ['#06b6d4', '#ffffff'],
+            zIndex: 9999
         });
         confetti({
             particleCount: 5,
             angle: 120,
             spread: 55,
             origin: { x: 1 },
-            colors: ['#06b6d4', '#ffffff']
+            colors: ['#06b6d4', '#ffffff'],
+            zIndex: 9999
         });
 
         if (Date.now() < end) {

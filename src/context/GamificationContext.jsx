@@ -107,9 +107,9 @@ export function GamificationProvider({ children }) {
                 .from('drill_logs')
                 .insert([{
                     user_id: user.id,
-                    drill_id: entry.drillId,
+                    drill_id: entry.drill, // Map drill name to drill_id column
                     category: entry.category,
-                    score: entry.score,
+                    score: entry.result, // Map result string to score column
                     mastery: entry.mastery,
                     xp_earned: entry.xp || 10,
                     created_at: entryWithTimestamp.created_at
