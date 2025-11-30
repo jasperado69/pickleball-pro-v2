@@ -106,6 +106,19 @@ export function LogDrill() {
     }
 
     const handleSubmit = () => {
+        // Validation
+        if (selectedDrill.type === 'checklist') {
+            if (checklist.length === 0) {
+                alert("Please check at least one goal before saving!");
+                return;
+            }
+        } else {
+            if (!inputVal || parseInt(inputVal) === 0) {
+                alert(`Please enter your ${selectedDrill.config.unit} before saving!`);
+                return;
+            }
+        }
+
         addEntry({
             id: Math.random().toString(36).slice(2),
             date,
