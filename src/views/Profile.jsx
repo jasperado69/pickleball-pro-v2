@@ -5,7 +5,7 @@ import { supabase } from '../lib/supabase';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input } from '../components/ui/Input';
-import { LogOut, User, Trophy, Flame, Zap } from 'lucide-react';
+import { LogOut, User, Trophy, Flame, Zap, Trash2, Database } from 'lucide-react';
 import { BADGES } from '../utils/badges';
 
 export function Profile() {
@@ -52,6 +52,14 @@ export function Profile() {
 
         setFeedbackText('');
         setShowFeedback(false);
+    };
+
+    const unlockEverything = () => {
+        updateProfile({ dupr_rating: 5.0, xp: 20000 });
+    };
+
+    const resetProgress = () => {
+        updateProfile({ dupr_rating: 2.5, xp: 0 });
     };
 
     return (
