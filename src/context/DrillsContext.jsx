@@ -268,6 +268,27 @@ const DEFAULT_DRILLS = [
             "Speed up immediately.",
             "Keep ball going until error."
         ]
+    },
+    {
+        category: "Defense",
+        name: "Lob Defense & Reset",
+        description: "Practice retrieving lobs. Turn and run (don't backpedal), then hit a soft drop shot into the kitchen.",
+        goal: "Reset 7/10 lobs successfully",
+        duration: "20 reps",
+        type: "reps",
+        media: {
+            type: 'video',
+            url: 'https://videos.pexels.com/video-files/4753337/4753337-hd_1920_1080_25fps.mp4', // Placeholder
+            poster: 'https://images.pexels.com/photos/2277981/pexels-photo-2277981.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=1'
+        },
+        config: { total: 10, unit: "resets" },
+        thresholds: { 5: 9, 4: 7, 3: 5, 2: 3, 1: 0 },
+        instructions: [
+            "Start at the NVZ line.",
+            "Partner feeds a high lob to the baseline.",
+            "Turn and sprint to the ball (do not backpedal).",
+            "Hit a soft drop shot (reset) into the opponent's kitchen."
+        ]
     }
 ];
 
