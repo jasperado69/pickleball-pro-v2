@@ -225,36 +225,43 @@ export function Profile() {
             </div>
 
             {/* Developer Tools */}
-            <Card className="p-4 border-yellow-400/20 bg-yellow-400/5">
-                <h3 className="font-bold text-yellow-400 mb-2 flex items-center gap-2">
-                    <Zap className="w-4 h-4" /> Developer Tools
-                </h3>
-                <div className="grid grid-cols-2 gap-3">
+            <div className="pt-6 border-t border-white/5">
+                <h3 className="text-xs font-bold text-text-muted uppercase tracking-wider mb-3">Developer Tools</h3>
+                <div className="flex flex-col gap-2">
                     <Button
-                        onClick={() => updateProfile({ dupr_rating: 5.0, xp: 20000 })}
-                        className="w-full bg-yellow-400/10 text-yellow-400 hover:bg-yellow-400/20 border-yellow-400/50 text-xs"
+                        variant="outline"
+                        className="w-full justify-start text-yellow-400 border-yellow-400/20 hover:bg-yellow-400/10"
+                        onClick={unlockEverything}
                     >
-                        ⚡ Unlock All
+                        <Zap className="w-4 h-4 mr-2" />
+                        Unlock Everything
                     </Button>
                     <Button
-                        onClick={() => updateProfile({ dupr_rating: 2.5, xp: 0 })}
-                        className="w-full bg-red-400/10 text-red-400 hover:bg-red-400/20 border-red-400/50 text-xs"
+                        variant="outline"
+                        className="w-full justify-start text-red-400 border-red-400/20 hover:bg-red-400/10"
+                        onClick={resetProgress}
                     >
-                        🔒 Reset / Lock
+                        <Trash2 className="w-4 h-4 mr-2" />
+                        Reset Progress
                     </Button>
                     <Button
+                        variant="outline"
+                        className="w-full justify-start text-blue-400 border-blue-400/20 hover:bg-blue-400/10"
                         onClick={async () => {
                             const { data, error } = await supabase.from('drill_logs').select('*').limit(1);
-                            if (error) alert(error.message);
-                            else if (data.length) alert('Columns: ' + Object.keys(data[0]).join(', '));
-                            else alert('Table is empty, cannot determine columns.');
+                            if (error) alert("Error: " + error.message);
+                            else if (data.length > 0) alert("Columns: " + Object.keys(data[0]).join(', '));
+                            else alert("Table empty, but accessible.");
                         }}
-                        className="col-span-2 w-full bg-blue-400/10 text-blue-400 hover:bg-blue-400/20 border-blue-400/50 text-xs"
                     >
-                        🐞 Debug DB Schema
+                        <Database className="w-4 h-4 mr-2" />
+                        Debug DB Schema
                     </Button>
                 </div>
-            </Card>
+                <div className="text-center mt-6 text-[10px] text-text-muted/50 font-mono">
+                    v1.1.0 (Dashboard Update)
+                </div>
+            </div>
 
             {/* Footer */}
             <div className="text-center pt-8 pb-4 space-y-2">
