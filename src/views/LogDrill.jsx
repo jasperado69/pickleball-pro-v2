@@ -5,20 +5,18 @@ import { useUser } from '../context/UserContext';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Input, Select, Label } from '../components/ui/Input';
-import { CheckCircle, Info, User, Lock, Target, Trophy } from 'lucide-react';
+import { CheckCircle, Info, User, Lock, Target, Trophy, ArrowLeft } from 'lucide-react';
+import { Dashboard } from './Dashboard';
 
 export function LogDrill() {
     const { drills } = useDrills();
     const { addEntry, xp, level, categoryStats, getCategoryLevel } = useGamification();
     const { activeUser } = useUser();
 
-    // Curated Training State
-    const [focusArea, setFocusArea] = useState(null); // null = All
-
-    const categories = [...new Set(drills.map(d => d.category))].sort();
+    // Navigation State
+    const [selectedCategory, setSelectedCategory] = useState(null);
 
     const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
-    const [category, setCategory] = useState(categories[0]);
     const [drillName, setDrillName] = useState('');
 
     // Smart Inputs
@@ -27,18 +25,15 @@ export function LogDrill() {
     const [notes, setNotes] = useState('');
     const [saved, setSaved] = useState(false);
 
-    // Filter drills based on Focus Area OR selected Category
-    const filteredDrills = drills.filter(d => {
-        if (focusArea) return d.category === focusArea;
-        return d.category === category;
-    });
+    // Filter drills based on selected Category
+    const filteredDrills = drills.filter(d => d.category === selectedCategory);
 
-    // Auto-select first drill
+    // Auto-select first drill when category changes
     useEffect(() => {
         if (filteredDrills.length > 0) {
             setDrillName(filteredDrills[0].name);
         }
-    }, [category, focusArea]);
+    }, [selectedCategory]);
 
     const selectedDrill = drills.find(d => d.name === drillName);
 
@@ -47,7 +42,7 @@ export function LogDrill() {
     const isLocked = selectedDrill?.minDupr && selectedDrill.minDupr > currentDupr;
 
     // Category Level
-    const currentCategoryXp = categoryStats[selectedDrill?.category || category] || 0;
+    const currentCategoryXp = categoryStats[selectedCategory] || 0;
     const currentCategoryLevel = getCategoryLevel(currentCategoryXp);
 
     // Reset inputs
@@ -130,7 +125,7 @@ export function LogDrill() {
         addEntry({
             id: Math.random().toString(36).slice(2),
             date,
-            category: selectedDrill?.category || category,
+            category: selectedCategory,
             drill: drillName,
             result: resultString,
             numericScore: numericScore, // Pass raw number for DB
@@ -139,7 +134,11 @@ export function LogDrill() {
             notes
         });
         setSaved(true);
-        setTimeout(() => setSaved(false), 2000);
+        setTimeout(() => {
+            setSaved(false);
+            // Optional: Go back to dashboard after save? 
+            // setSelectedCategory(null); 
+        }, 2000);
 
         setInputVal('');
         setChecklist([]);
@@ -154,51 +153,33 @@ export function LogDrill() {
         }
     };
 
+    // Render Dashboard if no category selected
+    if (!selectedCategory) {
+        return <Dashboard onSelectCategory={setSelectedCategory} />;
+    }
+
     return (
-        <div className="space-y-6">
-            {/* Focus Selector */}
-            {!focusArea ? (
-                <div className="grid grid-cols-2 gap-3">
-                    <button onClick={() => setFocusArea(null)} className="col-span-2 p-3 rounded-xl bg-primary text-white font-bold text-sm shadow-lg shadow-primary/20">
-                        All Drills
-                    </button>
-                    {categories.slice(0, 4).map(cat => (
-                        <button
-                            key={cat}
-                            onClick={() => setFocusArea(cat)}
-                            className="p-3 rounded-xl bg-bg-card border border-white/5 hover:border-primary/50 transition-all text-left"
-                        >
-                            <div className="text-[10px] uppercase text-text-muted font-bold mb-1">Focus</div>
-                            <div className="font-bold text-sm text-white">{cat}</div>
-                        </button>
-                    ))}
-                </div>
-            ) : (
-                <div className="flex items-center justify-between bg-primary/10 p-3 rounded-xl border border-primary/20">
-                    <div className="flex items-center gap-3">
-                        <div className="p-2 bg-primary rounded-full text-white">
-                            <Target className="w-4 h-4" />
-                        </div>
-                        <div>
-                            <div className="text-[10px] uppercase text-primary font-bold">Current Focus</div>
-                            <div className="font-bold text-white">{focusArea}</div>
-                        </div>
+        <div className="space-y-6 animate-in fade-in slide-in-from-right-8 duration-300">
+            {/* Header with Back Button */}
+            <div className="flex items-center gap-4">
+                <button
+                    onClick={() => setSelectedCategory(null)}
+                    className="p-2 rounded-full bg-white/5 hover:bg-white/10 text-white transition-colors"
+                >
+                    <ArrowLeft className="w-5 h-5" />
+                </button>
+                <div>
+                    <h2 className="text-xl font-bold text-white">{selectedCategory}</h2>
+                    <div className="flex items-center gap-2 text-xs font-bold text-yellow-400">
+                        <Trophy className="w-3 h-3" />
+                        <span>Level {currentCategoryLevel}</span>
                     </div>
-                    <button onClick={() => setFocusArea(null)} className="text-xs text-text-muted hover:text-white underline">
-                        Change
-                    </button>
                 </div>
-            )}
+            </div>
 
             <Card>
                 <div className="flex justify-between items-center mb-4 border-b border-white/5 pb-4">
                     <h2 className="text-xs font-bold text-text-muted uppercase tracking-wider">New Entry</h2>
-
-                    {/* Category Level Badge */}
-                    <div className="flex items-center gap-2 text-xs font-bold text-yellow-400 bg-yellow-400/10 px-2 py-1 rounded-full border border-yellow-400/20">
-                        <Trophy className="w-3 h-3" />
-                        <span>{selectedDrill?.category || category} Lvl {currentCategoryLevel}</span>
-                    </div>
                 </div>
 
                 <div className="space-y-4">
@@ -206,15 +187,6 @@ export function LogDrill() {
                         <Label>Date</Label>
                         <Input type="date" value={date} onChange={e => setDate(e.target.value)} />
                     </div>
-
-                    {!focusArea && (
-                        <div>
-                            <Label>Category</Label>
-                            <Select value={category} onChange={e => setCategory(e.target.value)}>
-                                {categories.map(c => <option key={c}>{c}</option>)}
-                            </Select>
-                        </div>
-                    )}
 
                     <div>
                         <Label>Drill</Label>

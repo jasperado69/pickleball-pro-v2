@@ -2,6 +2,7 @@ import { useGamification } from '../context/GamificationContext';
 import { Card } from '../components/ui/Card';
 import { Button } from '../components/ui/Button';
 import { Trash2 } from 'lucide-react';
+import { cn } from '../lib/utils';
 
 export function History() {
     const { history, deleteEntry } = useGamification();
@@ -34,13 +35,19 @@ export function History() {
                                 <div className="text-[10px] text-text-muted mt-1 italic">"{item.notes}"</div>
                             )}
                         </div>
-                        <div className="text-right">
+                        <div className="text-right flex flex-col items-end">
                             {item.success && (
-                                <div className="font-bold text-success text-sm">{item.success}%</div>
+                                <div className="font-bold text-success text-sm mb-1">{item.success}%</div>
                             )}
-                            <div className="inline-block px-1.5 py-0.5 rounded bg-white/5 text-[10px] text-text-muted mt-1">
+                            <div className={cn(
+                                "font-black text-lg",
+                                item.mastery < 3 ? "text-red-500" :
+                                    item.mastery === 3 ? "text-yellow-500" :
+                                        "text-green-500"
+                            )}>
                                 {item.mastery}/5
                             </div>
+                            <div className="text-[10px] text-text-muted uppercase tracking-wider font-bold">Mastery</div>
                         </div>
                     </div>
 
